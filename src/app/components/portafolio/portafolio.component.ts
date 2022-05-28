@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CoinsService } from 'src/app/services/coins.service';
@@ -23,7 +24,7 @@ export class PortafolioComponent implements OnInit {
       )
     );
 
-  constructor(private coinsService: CoinsService) {}
+  constructor(private coinsService: CoinsService, private router: Router) {}
 
   get coinSelectedName() {
     return this.operations.map((coin) => coin.name);
@@ -42,5 +43,6 @@ export class PortafolioComponent implements OnInit {
       }
     }
     localStorage.setItem('operations', JSON.stringify(operations));
+    this.router.navigate(['/home']);
   }
 }
