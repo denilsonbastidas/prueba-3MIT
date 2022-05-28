@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@keyframes showNavbar {
+    0%{
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100%{
+    transform: translateY(0%);
+    opacity: 1;
+    }
+}
+@keyframes showOpacity {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+.table , tr{
+    animation: showOpacity 1s ease;
+}
+.navbar{
+    animation: showNavbar 500ms ease-out;
+}
+

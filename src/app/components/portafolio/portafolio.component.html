@@ -1,0 +1,62 @@
+<div class="mt-5">
+  <h3>Mi portafolio <i class="fa-solid fa-briefcase text-muted"></i></h3>
+
+  <div class="cont-wallet d-flex w-50 mt-4 mb-4">
+    <div
+      class="wallet bg-light shadow-sm rounded p-2 border-bottom border-warning"
+    >
+      <h5 class="text-muted">
+        Balance total: {{ totalWallet | currency: "USD":"symbol" }}
+      </h5>
+    </div>
+  </div>
+
+  <table class="table table-borderless border-bottom border-warning">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Criptomoneda</th>
+        <th scope="col">Último precio</th>
+        <th scope="col">Cambios en 24h</th>
+        <th scope="col">Perdidas y ganancias</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let coin of coinsOperations$ | async">
+        <th scope="row">
+          <div style="width: 25px">
+            <img class="w-100" src="{{ coin.image }}" />
+          </div>
+        </th>
+        <td>
+          {{ coin.name }}
+          <span class="text-muted">({{ coin.symbol | uppercase }})</span>
+        </td>
+        <td>{{ coin.current_price | currency: "USD":"symbol" }}</td>
+        <td
+          [ngClass]="{
+            'text-success': coin.price_change_percentage_24h > 0,
+            'text-danger': coin.price_change_percentage_24h < 0,
+            'text-muted': coin.price_change_percentage_24h === 0
+          }"
+        >
+          {{ coin.price_change_percentage_24h }}%
+        </td>
+        <!-- hacer logica de perdidas y ganancias -->
+        <td class="text-muted d-flex">
+          0%
+          <button
+            title="Cerrar operacion"
+            type="button"
+            class="btn-close fs-6 mx-4"
+            (click)="removeOperations(coin?.name)"
+            aria-label="Close"
+          ></button>
+        </td>
+      </tr>
+      <tr *ngIf="(coinsOperations$ | async)?.length < 1">
+        <td>Sin operaciones.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

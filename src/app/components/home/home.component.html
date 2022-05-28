@@ -1,0 +1,139 @@
+<div class="cont-wrapper mt-5">
+  <div class="cont-markets mb-5">
+    <div class="d-flex flex-row justify-content-between mb-4">
+      <h3>
+        Mercado <i class="ml-1 fa-solid fa-chart-simple text-warning"></i>
+      </h3>
+
+      <div>
+        <input
+          autofocus
+          class="form-control"
+          [formControl]="searchCrypto"
+          type="text"
+          placeholder="Buscar moneda"
+        />
+      </div>
+    </div>
+    <table
+      class="table table-borderless table-hover border-bottom border-warning"
+    >
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Criptomoneda</th>
+          <th scope="col">Último precio</th>
+          <th scope="col">Cambios en 24h</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let coin of coinsMarket$ | async"
+          data-bs-toggle="modal"
+          role="button"
+          href="#exampleModalToggle"
+          (click)="coinSelected = coin"
+        >
+          <th scope="row">
+            <div style="width: 25px">
+              <img class="w-100" src="{{ coin.image }}" />
+            </div>
+          </th>
+          <td>
+            {{ coin.name }}
+            <span class="text-muted">({{ coin.symbol | uppercase }})</span>
+          </td>
+          <td>{{ coin.current_price | currency: "USD":"symbol" }}</td>
+          <td
+            [ngClass]="{
+              'text-success': coin.price_change_percentage_24h > 0,
+              'text-danger': coin.price_change_percentage_24h < 0,
+              'text-muted': coin.price_change_percentage_24h === 0
+            }"
+          >
+            {{ coin.price_change_percentage_24h }}%
+          </td>
+        </tr>
+        <tr *ngIf="(coinsMarket$ | async)?.length < 1">
+          <td>Sin resultados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- 
+  <div class="cont-popular mb-5">
+    <h3 class="mb-3">
+      Criptomonedas populares <i class="fa-solid fa-fire text-warning"></i>
+    </h3>
+
+    <table
+      class="table table-borderless table-hover w-75 border-bottom border-warning"
+    >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Criptomoneda</th>
+          <th scope="col">Último precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+        </tr>
+
+        <tr>
+          <th scope="row">3</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+        </tr>
+
+        <tr>
+          <th scope="row">4</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+
+  <div
+    class="row justify-content-center mt-3 bg-white shadow p-2 border-top mb-5"
+  >
+    <div class="w-25 col">
+      <h2>70 000 M€</h2>
+      <p>de volumen de trading en 24 h en el exchange de RX</p>
+    </div>
+
+    <div class="w-25 col">
+      <h2>Más de 600</h2>
+      <p>criptomonedas disponibles</p>
+    </div>
+
+    <div class="w-25 col">
+      <h2>90 millones</h2>
+      <p>de usuarios confían en RX</p>
+    </div>
+
+    <div class="w-25 col">
+      <h2>Menos del 0,10 %,</h2>
+      <p>las comisiones de transacción más bajas</p>
+    </div>
+  </div>
+</div>
+<!-- modal -->
+<app-modal-dialog
+  class="position-absolute bottom-0 end-0"
+  [coinSelected]="coinSelected"
+></app-modal-dialog>
